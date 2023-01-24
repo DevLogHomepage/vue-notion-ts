@@ -719,3 +719,45 @@
     background: rgb(247, 246, 243);
     font-weight: 500;
   }
+
+  .notion-collection_view-block{
+    height: 40px;
+    width:100%;
+    padding: 0;
+  }
+  .notion-collection_view-block > div{
+    display: inline-flex;
+    margin: 0;
+    height: 100%;
+  }
+  .notion-collection_view-block > div > div{
+    display:flex;
+    flex-direction: row;
+  }
+
+  .notion-collection_view-block > div > div > div{
+    display:flex;
+    align-items: center;
+    background:none;
+    height: 100%;
+  }
+
+  .notion-collection_view-block > div > div > div > div{
+    user-select: none;
+    transition: background 20ms ease-in 0s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    height: 28px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.2;
+    min-width: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: rgb(55, 53, 47);
+    font-weight: 500;
+    max-width: 220px;
+  }

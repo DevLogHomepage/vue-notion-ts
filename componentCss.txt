@@ -1,0 +1,38 @@
+collection_view{
+    display: flex;
+    flex-direction: row;
+
+
+    div {
+        display: flex;
+        align-items: center;
+        background: none;
+        height: 100%;
+        border-bottom: 2px solid rgb(55, 53, 47);
+        padding-top: 2px;
+
+        div {
+            user-select: none;
+            transition: background 20ms ease-in 0s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            white-space: nowrap;
+            height: 28px;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.2;
+            min-width: 0px;
+            padding-left: 8px;
+            padding-right: 8px;
+            color: rgb(55, 53, 47);
+            font-weight: 500;
+            max-width: 220px;
+
+            div{
+                
+            }
+        }
+    }
+}

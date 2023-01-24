@@ -18,9 +18,12 @@ import type { PropType } from "vue";
 export default {
   extends: defineBlockComponent(),
   name: "NotionTextRenderer",
-  props: { text: Object as PropType<string[]> },
+  props: { text: Object as PropType<string[] | string[][]> },
   components: {
     NotionDecorator,
   },
+  mounted(){
+    console.log(this.text)
+  }
 };
 </script>

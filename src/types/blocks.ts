@@ -1,17 +1,20 @@
-import type { EnumStringMember } from "@babel/types"
-
 export interface blocks{
     [pageId: string] : block
 }
 
 export interface block{
     role: string,
-    value: blockValue // need to change,
+    value: blockValue
+    types: string,
+    collection: blockCollection // need to change,
+    data: any //need to change
+    start_date:string,
+    end_date:string
 }
 
 export interface blockValue{
     alive:boolean,
-    content:string[] // need to change,
+    content:string[]
     copied_from: string,
     created_by_id: string,
     created_by_table: string,
@@ -23,12 +26,14 @@ export interface blockValue{
     last_edited_by_table:string,
     last_edited_time:number,
     parent_id: string,
+    page_sort: string[],
     parent_table:string,
-    permissions: blockValuePermission[], // (2) [{…}, {…}],
-    properties: blockValueProperties, // {title: Array(1)},
+    permissions: blockValuePermission[], 
+    properties: blockValueProperties,
     space_id:string,
-    type:string
-    version:number
+    type:string,
+    version:number,
+    
 }
 
 export interface blockValueFormat{
@@ -50,4 +55,82 @@ export interface blockValuePermission{
 
 export interface blockValueProperties{
     [key: string]:string[]
+}
+
+export interface blockCollection{
+    title:string,
+    schema:{
+        [key:string]: blockCollectionSchema
+    },
+    types:collectionType[]
+}
+
+export interface blockCollectionSchema{
+    name:string,
+    type:string,
+    options: collectionOption[],
+    groups: collectionGroup[],
+    version: string,
+    property: string,
+    collection_id: string,
+    collection_pointer: {
+        id:string,
+        table: string,
+        spaceId: string
+    },
+    data:collectionData
+}
+
+export interface collectionOption{
+    id: string,
+    color: string,
+    value: string,
+}
+
+export interface collectionGroup{
+    id:string,
+    name: string,
+    color: string,
+    optionsIds:string[]
+}
+
+export interface collectionType{
+    id: string,
+    version: number,
+    type: string,
+    name: string,
+    format: {
+       table_wrap:boolean,
+       property_filters:collectionFilter
+       table_properties:collectionProperty[],
+       collection_pointer:{
+           id:string,
+           table:string,
+           spaceId:string
+       }
+       collection_page_properties:collectionProperty[]
+    },
+
+
+}
+
+export interface collectionFilter{
+    id: string,
+    filter:{
+        filter: collectionFilter
+    }
+    value:{
+        type:string,
+        value:string
+    }
+}
+
+export interface collectionProperty{
+    width:number,
+    visible: boolean,
+    property: string
+}
+
+export interface collectionData{
+    [key:string]:(string|block)[]
 }
