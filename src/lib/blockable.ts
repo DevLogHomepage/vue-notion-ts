@@ -1,5 +1,5 @@
 import { getTextContent } from "@/lib/utils";
-import type { blocks } from "@/types/blocks";
+import type { blocks, blockValueFormat } from "@/types/blocks";
 import type { pageLinkOptions } from "@/types/pageLinkOptions";
 import type { PropType } from "vue";
 
@@ -58,7 +58,7 @@ export default function defineBlockComponent(){
       value() {
         return this.block?.value;
       },
-      format() {
+      format():blockValueFormat {
         return this.value?.format;
       },
       f() {

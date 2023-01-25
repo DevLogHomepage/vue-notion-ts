@@ -43,7 +43,22 @@ export interface blockValueFormat{
         spaceId: string
     },
     page_full_width:boolean,
-    page_icon:string
+    page_icon:string,
+    block_aspect_ratio: number,
+    block_height: number,
+    block_width: number,
+    block_color: string,
+    bookmark_icon: string,
+    bookmark_cover: string,
+    display_source: string,
+    collection_pointer:{
+        id:string,
+        table:string,
+        spaceId:string
+    },
+    hide_linked_collection_name:boolean,
+    table_properties: blockValueProperties[],
+    table_wrap:boolean
 }
 
 export interface blockValuePermission{

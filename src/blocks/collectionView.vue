@@ -35,20 +35,25 @@ export default defineComponent({
     computed:{
         tableTypes(){
             console.log(this.block?.collection.types)
+            console.debug(this.block)
             return this.block?.collection.types
         },
+    },
+    created(){
+        this.block?.collection.types.forEach((type,index) => {
+            if(type.format.table_wrap)
+                this.typesNumber  = index
+        })
     },
     methods:{
         header(columnType:collectionType){
             return [[columnType.name]]
         },
         setDisplayTable(target:MouseEvent,index:number){
-            console.log(target)
-            console.log(index)
             this.typesNumber = index
-            // this.typesNumber = type
         },
         underLine(index:number):StyleValue{
+            
             return (this.typesNumber === index) ? {borderBottom: 'solid 2px rgb(55,53,47)',paddingTop:'2px'} : ''
         }
     }

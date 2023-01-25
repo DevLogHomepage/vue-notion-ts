@@ -21,9 +21,6 @@ export default {
   props: { text: Object as PropType<string[] | string[][]> },
   components: {
     NotionDecorator,
-  },
-  mounted(){
-    console.log(this.text)
   }
 };
 </script>
