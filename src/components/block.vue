@@ -20,7 +20,6 @@
   <NotionText v-else-if="isType('text')" v-bind="pass" />
   <NotionQuote v-else-if="isType('quote')" v-bind="pass" />
   <NotionTodo v-else-if="isType('to_do')" v-bind="pass" />
-  <NotionCollectionVue v-else-if="isType('collection_view')" v-bind="pass" />
   <NotionToggle v-else-if="isType('toggle')" v-bind="pass">
     <slot />
   </NotionToggle>
@@ -40,6 +39,7 @@
     v-else-if="isType(['image', 'embed', 'figma', 'video', 'audio'])"
     v-bind="pass"
   />
+  <NotionCollectionView v-else-if="isType('collection_view')" v-bind="pass"><slot /></NotionCollectionView>
   <NotionTable v-else-if="isType('table')" v-bind="pass"><slot /></NotionTable>
   <NotionSyncPointer
     v-else-if="isRendererRegistered && isType('transclusion_reference')"
@@ -82,7 +82,7 @@ import NotionTableRow from "@/blocks/table-row.vue";
 import NotionText from "@/blocks/text.vue";
 import NotionTodo from "@/blocks/todo.vue";
 import NotionToggle from "@/blocks/toggle.vue";
-import NotionCollectionVue from "@/blocks/collectionView.vue"
+import NotionCollectionView from "@/blocks/collectionView.vue"
 
 export default defineComponent({
   extends: defineBlockComponent(),
@@ -104,12 +104,12 @@ export default defineComponent({
     NotionText,
     NotionTodo,
     NotionToggle,
-    NotionCollectionVue
+    NotionCollectionView
   },
   computed: {
     isRendererRegistered() {
       return true;
     },
-  },
+  }
 });
 </script>

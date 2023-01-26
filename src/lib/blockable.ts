@@ -1,5 +1,5 @@
 import { getTextContent } from "@/lib/utils";
-import type { blocks, blockValueFormat } from "@/types/blocks";
+import type { blocks, blockValueFormat,collectionType,blockValue } from "@/types/blocks";
 import type { pageLinkOptions } from "@/types/pageLinkOptions";
 import type { PropType } from "vue";
 
@@ -13,6 +13,7 @@ export default function defineBlockComponent(){
       blockOverrides: { type: Object, default: () => ({}) },
       contentId: { type: String, required: false },
       contentIndex: { type: Number, default: 0 },
+      collectionData:{type: Object as PropType<blockValue>},
       embedAllow: { type: String, default: "fullscreen" },
       fullPage: { type: Boolean, default: false },
       hideList: { type: Array, default: () => [] },
@@ -35,6 +36,7 @@ export default function defineBlockComponent(){
           blockOverrides: this.blockOverrides,
           contentId: this.contentId,
           contentIndex: this.contentIndex,
+          collectionData: this.collectionData,
           embedAllow: this.embedAllow,
           fullPage: this.fullPage,
           hideList: this.hideList,
@@ -58,10 +60,19 @@ export default function defineBlockComponent(){
       value() {
         return this.block?.value;
       },
+      collection(){
+        console.log(this.block?.collection)
+        return this.block?.collection
+      },
+      contents():string[]|collectionType[]{
+        console.debug(this.value?.content || this.collection?.types)
+        return this.value?.content ?? this.collection?.types
+      },
       format():blockValueFormat {
         return this.value?.format;
       },
       f() {
+        
         // format with defaults if empty
         return {
           block_aspect_ratio: this.format?.block_aspect_ratio,
@@ -98,6 +109,9 @@ export default function defineBlockComponent(){
       type() {
         return this.value?.type;
       },
+      databaseType(){
+        return this.collectionData?.type
+      },
       visible() {
         return !this.hideList.includes(this.type);
       },
@@ -107,15 +121,20 @@ export default function defineBlockComponent(){
       parent() {
         return this.blockMap[this.value?.parent_id];
       },
+      // blockValueType(){
+      //   return this.block
+      // }
     },
     methods: {
       getTextContent,
       isType(t:string[] | string) {
+        const dbType = this.databaseType ?? 'null'
+        if(this.databaseType) console.log("testing", dbType === t)
         if (Array.isArray(t)) {
-          return this.visible && t.includes(this.type);
+          return this.visible && (t.includes(this.type) ?? t.includes(dbType));
         }
-  
-        return this.visible && this.type === t;
+        
+        return this.visible && (this.type === t || dbType === t);
       },
       blockColorClass(suffix = "") {
         const blockColor = this.format?.block_color;

@@ -1,17 +1,28 @@
 <template>
-    <div class="notion-collection_view-block">
-        <div>
-            <div v-for="(columnType,columnIndex) in tableTypes" :key="columnIndex" v-on:click="setDisplayTable($event,columnIndex)">
-                <div :style="underLine(columnIndex)">
-                    <div>
-                        <NotionTextRenderer :text=header(columnType) v-bind="pass"/>
+    <div>
+        <div class="notion-collection_view-block">
+            <div>
+                <div v-for="(columnType,columnIndex) in tableTypes" :key="columnIndex" v-on:click="setDisplayTable($event,columnIndex)">
+                    <div :style="underLine(columnIndex)">
+                        <div>
+                            <NotionTextRenderer :text=header(columnType) v-bind="pass"/>
+                        </div>
                     </div>
                 </div>
-                <!-- <div>{{ columnName }}</div> -->
+    
             </div>
-            <div>
-                <slot />
-            </div>
+        </div>
+        <div>
+            
+            <NotionDatabase 
+            v-for="(blockValId,blockValIndex) in collection.types"
+            :key="blockValIndex" 
+            v-bind="pass"
+            :collectionData="blockValId">
+                <slot/>
+            </NotionDatabase>
+            
+            <!-- <NotionTable v-bind="pass"><slot/></NotionTable> -->
         </div>
     </div>
 </template>
@@ -20,12 +31,18 @@
 import { NotionTextRenderer } from '@/components';
 import defineBlockComponent from '@/lib/blockable';
 import { defineComponent, ref, type StyleValue } from 'vue'
-import type { collectionType } from "@/types/blocks"
+import type { blockValue, collectionType } from "@/types/blocks"
+import { NotionTable } from '@/components';
+import NotionDatabase from '@/components/database.vue'
 
 export default defineComponent({
     name: "NotionCollectionView",
     extends: defineBlockComponent(),
-    components: { NotionTextRenderer },
+    components: { 
+        NotionTextRenderer,
+        NotionTable,
+        NotionDatabase
+     },
     setup(){
         const typesNumber = ref<number>(0)
         return{
@@ -34,8 +51,6 @@ export default defineComponent({
     },
     computed:{
         tableTypes(){
-            console.log(this.block?.collection.types)
-            console.debug(this.block)
             return this.block?.collection.types
         },
     },
@@ -46,14 +61,13 @@ export default defineComponent({
         })
     },
     methods:{
-        header(columnType:collectionType){
+        header(columnType:blockValue){
             return [[columnType.name]]
         },
-        setDisplayTable(target:MouseEvent,index:number){
+        setDisplayTable(_:MouseEvent,index:number){
             this.typesNumber = index
         },
         underLine(index:number):StyleValue{
-            
             return (this.typesNumber === index) ? {borderBottom: 'solid 2px rgb(55,53,47)',paddingTop:'2px'} : ''
         }
     }

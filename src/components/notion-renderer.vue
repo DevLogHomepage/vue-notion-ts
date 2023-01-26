@@ -1,7 +1,7 @@
 <template>
-  <NotionBlock v-bind="pass" v-if="blockMap && value">
+  <NotionBlock v-bind="pass" v-if="blockMap && (value || collection)">
     <NotionRenderer
-      v-for="(contentId, contentIndex) in value.content"
+      v-for ="(contentId,contentIndex) in value.content"
       v-bind="pass"
       :key="contentId"
       :level="level + 1"
@@ -12,12 +12,13 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, type PropType } from 'vue'
 import defineBlockComponent from "@/lib/blockable";
 import NotionBlock from "@/components/block.vue";
 
 import { defaultMapImageUrl, defaultMapPageUrl } from "@/lib/utils";
 
-export default {
+export default defineComponent({
   extends: defineBlockComponent(),
   name: "NotionRenderer",
   components: {
@@ -37,5 +38,8 @@ export default {
     prism: { type: Boolean, default: false },
     todo: { type: Boolean, default: false },
   },
-};
+})
 </script>
+
+
+

@@ -25,6 +25,7 @@ export interface blockValue{
     last_edited_by_id:string,
     last_edited_by_table:string,
     last_edited_time:number,
+    name:string,
     parent_id: string,
     page_sort: string[],
     parent_table:string,
@@ -77,7 +78,7 @@ export interface blockCollection{
     schema:{
         [key:string]: blockCollectionSchema
     },
-    types:collectionType[]
+    types:blockValue[]
 }
 
 export interface blockCollectionSchema{

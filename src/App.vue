@@ -20,6 +20,9 @@ export default {
     }
   },
   async created() {
+    //0c996ac0bf5948e49f235c42efc80ce8
+    // /bd1de400a8b349dc824f4f00e61d0797
+    //2a1d5226d68246deba627012081693f9
     this.blockMap = (await getPageBlocks("0c996ac0bf5948e49f235c42efc80ce8")).data;
   },
 };
