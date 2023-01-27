@@ -24,6 +24,10 @@ export default {
   components: {
     NotionTextRenderer,
   },
+  created(){
+    console.log(this.parent?.value?.format)
+
+  },
   computed: {
     hasHeaderColumn() {
       return this.parent?.value?.format?.table_block_column_header;

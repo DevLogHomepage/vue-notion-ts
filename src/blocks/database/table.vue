@@ -1,52 +1,62 @@
 <template>
-  <tr class="notion-simple-table-row">
-    <td
-      v-for="(columnId, columnIndex) in columns"
-      :key="columnIndex"
-      class="notion-database-table-data"
-    >
-      <div :class="{ 'notion-database-table-header': isHeader(columnIndex) }">
-        <div class="notion-database-table-cell-text">
-          <NotionTextRenderer :text="cell(columnId)" v-bind="pass" />
-        </div>
-      </div>
-    </td>
-  </tr>
+  <div>
+    <div class="notion-database-table-row">
+      <tr>
+        <td
+          v-for="(columnId, columnIndex) in properties"
+          :key="columnIndex"
+          class="notion-database-table-data"
+        >
+          <div :style="{width:`${columnId.width}PX`}" v-if="isVisible(columnId)">
+            <CollectionCellRenderer :text="headerTitle(columnId)" v-bind="pass"/>
+          </div>
+        </td>
+      </tr>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { NotionTextRenderer } from '@/components';
-import defineBlockComponent from '@/lib/blockable';
+import type { blockValueProperties } from '@/types/blocks';
 import { defineComponent } from 'vue'
+import defineDBComponent from '@/lib/database';
+import CollectionCellRenderer from '../helpers/collectionCellRenderer.vue';
 
 export default defineComponent({
-    extends: defineBlockComponent(),
+    extends: defineDBComponent(),
     name: "NotionTableRow",
     components: {
-        NotionTextRenderer,
+        CollectionCellRenderer
     },
     computed: {
-        hasHeaderColumn() {
-        return this.parent?.value?.format?.table_block_column_header;
-        },
-        hasHeaderRow() {
-        return this.parent?.value?.format?.table_block_row_header;
-        },
-        columns() {
-        return this.parent?.value?.format?.table_block_column_order;
-        },
+
+        // hasHeaderColumn() {
+        // return this.parent?.value?.format?.table_block_column_header;
+        // },
+        // hasHeaderRow() {
+        // return this.parent?.value?.format?.table_block_row_header;
+        // },
+        // columns() {
+        // // return this.;
+        // },
     },
     methods: {
-        cell(columnId:string) {
-        // return empty notion decorated text if row is empty
-        return this?.properties?.[columnId] ?? [[" ", false]];
-        },
-        isHeader(columnIndex:number) {
-        return (
-            (this.hasHeaderColumn && this.contentIndex == 0) ||
-            (this.hasHeaderRow && columnIndex == 0)
-        );
-        },
+      headerTitle(columnId:blockValueProperties){
+        return [[this.schema[columnId.property].name]]
+      },
+      isVisible(columnId:blockValueProperties){
+        return columnId.visible
+      }
+        // cell(columnId:string) {
+        // // return empty notion decorated text if row is empty
+        // return this?.properties?.[columnId] ?? [[" ", false]];
+        // },
+        // isHeader(columnIndex:number) {
+        // return (
+        //     (this.hasHeaderColumn && this.contentIndex == 0) ||
+        //     (this.hasHeaderRow && columnIndex == 0)
+        // );
+        // },
     },
 })
 </script>

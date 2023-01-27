@@ -121,15 +121,11 @@ export default function defineBlockComponent(){
       parent() {
         return this.blockMap[this.value?.parent_id];
       },
-      // blockValueType(){
-      //   return this.block
-      // }
     },
     methods: {
       getTextContent,
       isType(t:string[] | string) {
         const dbType = this.databaseType ?? 'null'
-        if(this.databaseType) console.log("testing", dbType === t)
         if (Array.isArray(t)) {
           return this.visible && (t.includes(this.type) ?? t.includes(dbType));
         }
