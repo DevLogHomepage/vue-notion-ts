@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div class="notion-database-table-row">
+    <div class="notion-database-table-row" v-for="rowIndex in data.length + 1">
       <tr>
         <td
-          v-for="(columnId, columnIndex) in properties"
+          v-for="(columnProperty, columnIndex) in properties"
           :key="columnIndex"
           class="notion-database-table-data"
         >
-          <div :style="{width:`${columnId.width}PX`}" v-if="isVisible(columnId)">
-            <CollectionCellRenderer :text="headerTitle(columnId)" v-bind="pass"/>
+          <div :style="{width:`${columnProperty.width}PX`}" v-if="isVisible(columnProperty)">
+            <CollectionCellRenderer :text="isheaderTitle(rowIndex-1,columnProperty)" v-bind="pass"/>
           </div>
         </td>
+
       </tr>
     </div>
   </div>
@@ -28,35 +29,14 @@ export default defineComponent({
     components: {
         CollectionCellRenderer
     },
-    computed: {
-
-        // hasHeaderColumn() {
-        // return this.parent?.value?.format?.table_block_column_header;
-        // },
-        // hasHeaderRow() {
-        // return this.parent?.value?.format?.table_block_row_header;
-        // },
-        // columns() {
-        // // return this.;
-        // },
-    },
     methods: {
-      headerTitle(columnId:blockValueProperties){
-        return [[this.schema[columnId.property].name]]
+      isheaderTitle(rowIndex:number,columnProperty:blockValueProperties){
+        if(!rowIndex) return [[this.schema[columnProperty.property].name]]
+        return this.data[rowIndex - 1][this.schema[columnProperty.property].name] ?? [[' ']]
       },
       isVisible(columnId:blockValueProperties){
         return columnId.visible
       }
-        // cell(columnId:string) {
-        // // return empty notion decorated text if row is empty
-        // return this?.properties?.[columnId] ?? [[" ", false]];
-        // },
-        // isHeader(columnIndex:number) {
-        // return (
-        //     (this.hasHeaderColumn && this.contentIndex == 0) ||
-        //     (this.hasHeaderRow && columnIndex == 0)
-        // );
-        // },
     },
 })
 </script>
